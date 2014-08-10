@@ -1,0 +1,48 @@
+limits:
+=======
+
+Add this line to:
+/etc/security/limits.conf
+
+imiell hard nofile 16384
+
+
+Another way to increase it is to become root, increase the limit, switch back the user, and start the program you want it increased for:
+su - root
+ulimit -n 16384 # if root uses sh
+limit descriptors 16384 # if root uses csh
+su - your_user_name
+program_to_run
+
+
+startup
+=======
+erl +K true +A 32 +P 100000 -s server_master
+
+K - kernel poll
+A - asynchronous threads
+
+
+DESIGN
+======
+Connect and get tcp socket, registering interest in a particular level and id.
+This is stored in a local table.
+Each node receives messages from the monitor.
+For each socket that matches the criteria, the message is sent to the client.
+
+
+TESTING
+=======
+Get metrics for actual use
+How many people have browsers open full stop?
+
+
+TODO
+====
+sensible logging. - DONE
+ability to switch log levels on the fly.
+Sort out logging for time taken to set up socket. - use sasl?
+Write server with table for mapping pids to rules, which will receive and process messages
+can one reference
+sort out router client
+sort out config'ing
